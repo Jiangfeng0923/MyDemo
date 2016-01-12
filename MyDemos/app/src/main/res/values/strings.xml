@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">MyDemos</string>
+    <string name="toast_demo_activity_name">ToastDemo</string>
+    <string name="recyclerview_list_activity_name">RecyclerViewList</string>
+    <string name="test_activity_name">TestActivity</string>
+    <string name="cursorloader_activity_name">CursorLoader Activity</string>
+    <string name="volley_activity_name">Volley Activity</string>
+    <string name="webview_activity_name">WebView Activity</string>
+    <string name="get">Get</string>
+    <string name="put">Put</string>
+    <string name="clear">Clear</string>
+    <string name="getJson">Get Json</string>
+    <string-array name="btns">
+        <item>"btn1"</item>
+        <item>"btn2"</item>
+        <item>"btn3"</item>
+        <item>"btn4"</item>
+    </string-array>
+</resources>
