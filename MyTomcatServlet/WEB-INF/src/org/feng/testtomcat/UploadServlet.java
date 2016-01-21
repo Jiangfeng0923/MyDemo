@@ -26,6 +26,7 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("doPost..." + request);
 		if (request == null) {
 			return;
 		}
@@ -44,7 +45,6 @@ public class UploadServlet extends HttpServlet {
 		// 开始读取上传信息
 		int index = 0;
 		List fileItems = null;
-		System.out.println("doPost..." + request);
 
 		try {
 			fileItems = fu.parseRequest(request);

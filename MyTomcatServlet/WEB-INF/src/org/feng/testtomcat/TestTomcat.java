@@ -27,7 +27,7 @@ public class TestTomcat extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("wori  doGet..." + req);
+		System.out.println(" doGet..." + req);
 
 		if (req == null) {
 			return;

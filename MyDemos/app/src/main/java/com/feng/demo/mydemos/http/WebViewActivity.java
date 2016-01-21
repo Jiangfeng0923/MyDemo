@@ -1,6 +1,7 @@
 package com.feng.demo.mydemos.http;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -29,10 +30,12 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.net.URLDecoder;
 
 import static com.feng.demo.utils.MyLogUtils.JLog;
@@ -102,8 +105,12 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
             JLog("down load url=" + url);
-            DownloaderTask task = new DownloaderTask();
-            task.execute(url);
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+            //Todo: Download by DownloaderTask!!!
+            /*DownloaderTask task = new DownloaderTask();
+            task.execute(url);*/
         }
     }
 
@@ -115,6 +122,7 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
+
             String url = params[0];
             final String fileName = url.substring(url.lastIndexOf("/") + 1);
             JLog("fileName="+fileName);
@@ -160,18 +168,21 @@ public class WebViewActivity extends AppCompatActivity {
                 File directory=Environment.getExternalStorageDirectory();
                 JLog("directory="+directory+ " fileName="+fileName);
                 File file=new File(directory,fileName);
+                JLog("input="+input);
 //          if(file.exists()){
 //              Log.i("tag", "The file has already exists.");
 //              return;
 //          }
                 try {
-                    JLog("write file start ----");
                     FileOutputStream fos = new FileOutputStream(file);
-                    byte[] b = new byte[2048];
+                    byte[] b = new byte[1024];
                     int j = 0;
+                    JLog("write file start ----");
+                    input.read(b);
+                    JLog("write file ing ----");
                     while ((j = input.read(b)) != -1) {
-                        fos.write(b, 0, j);
                         JLog("writing ````");
+                        fos.write(b, 0, j);
                     }
                     fos.flush();
                     fos.close();
