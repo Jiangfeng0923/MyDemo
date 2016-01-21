@@ -14,7 +14,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.feng.demo.mydemos.R;
-import com.feng.demo.utils.MyURLs;
+import com.feng.demo.data.MyURLs;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

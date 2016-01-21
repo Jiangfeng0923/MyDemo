@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:name=".DemoApplication"
@@ -32,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecyclerViewListActivity"
+            android:name=".recyclerview.RecyclerViewListActivity"
             android:label="@string/recyclerview_list_activity_name" />
         <activity
             android:name=".TestActivity"
@@ -67,7 +70,10 @@
             android:exported="true" />
 
         <activity android:name=".http.TomcatActivity" />
-        <activity android:name=".ImageLoaderActivity"></activity>
+        <activity android:name=".updownload.ImageLoaderActivity" />
+        <activity android:name=".EventBusActivity" />
+        <activity android:name=".updownload.UploadFileActivity" />
+        <activity android:name=".layout.SymmetricalLayoutActivity"></activity>
     </application>
 
 </manifest>

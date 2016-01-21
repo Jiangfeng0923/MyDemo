@@ -8,7 +8,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.feng.demo.mydemos.R;
-import com.feng.demo.utils.MyURLs;
+import com.feng.demo.data.MyURLs;
 
 public class WebViewActivity extends AppCompatActivity {
     private WebView webView;

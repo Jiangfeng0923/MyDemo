@@ -14,6 +14,9 @@
         <item name="my_aidl_activity_name">MyAIDL Activity</item>
         <item name="my_tomcat_activity_name">Tomcat Activity</item>
         <item name="my_imageloader_activity_name">ImageLoaderActivity</item>
+        <item name="my_eventbus_activity_name">EventBusActivity</item>
+        <item name="my_uploadfile_activity_name">UploadFileActivity</item>
+
 
     </string-array>
 

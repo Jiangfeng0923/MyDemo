@@ -2,22 +2,24 @@
 package com.feng.demo.utils;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
+import com.feng.demo.data.DataMode;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lenovo on 2016/1/3.
  */
-public class ListAdapter<E> extends BaseAdapter {
-    private ArrayList<E> mArray;
+public class ListAdapter extends BaseAdapter {
+    private List<?> mArray;
     private Context mContext;
 
-    public ListAdapter(Context context, ArrayList<E> array) {
+    public ListAdapter(Context context, List<?> array) {
         mArray = array;
         mContext = context;
     }
@@ -47,12 +49,13 @@ public class ListAdapter<E> extends BaseAdapter {
         }
         v.setFocusable(false);
         v.setClickable(false);
-        E e = mArray.get(position);
-        if (e instanceof String) {
-            v.setText((String) e);
-        } else if (e instanceof DataMode) {
-            v.setText(((DataMode) e).mName);
-            v.setTag(((DataMode) e).mIntent);
+        if (mArray.get(position) instanceof String) {
+            String str = (String)mArray.get(position);
+            v.setText(str);
+        } else if (mArray.get(position) instanceof DataMode) {
+            DataMode data = (DataMode)mArray.get(position);
+            v.setText(data.getName());
+            v.setTag(data.getIntent());
         }
 
         return v;

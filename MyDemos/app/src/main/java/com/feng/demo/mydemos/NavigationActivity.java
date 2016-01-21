@@ -1,68 +1,53 @@
 package com.feng.demo.mydemos;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 
-import com.feng.demo.mydemos.aidl.MyAIDLActivity;
-import com.feng.demo.mydemos.bitmap.BitmapToParcelActivity;
-import com.feng.demo.mydemos.http.OkHttpActivity;
-import com.feng.demo.mydemos.http.TomcatActivity;
-import com.feng.demo.mydemos.http.VolleyActivity;
-import com.feng.demo.mydemos.http.WebViewActivity;
-import com.feng.demo.mydemos.threadpool.ThreadPoolActivity;
-import com.feng.demo.mydemos.threadpool.ThreadPool_2_Activity;
-import com.feng.demo.utils.DataMode;
-import com.feng.demo.utils.ListAdapter;
+import com.feng.demo.mydemos.recyclerview.MyRecyclerAdapter;
+import com.feng.demo.data.DataMode;
+import com.feng.demo.mydemos.recyclerview.DividerGridItemDecoration;
+import com.feng.demo.data.MyActivities;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NavigationActivity extends ListActivity {
+import static com.feng.demo.utils.MyLogUtils.JLog;
 
-    Class[] cls = {
-            CursorLoaderActivity.class,
-            RecyclerViewListActivity.class,
-            TestActivity.class,
-            ToastDemoActivity.class,
-            VolleyActivity.class,
-            WebViewActivity.class,
-            ThreadPoolActivity.class,
-            ThreadPool_2_Activity.class,
-            BitmapToParcelActivity.class,
-            OkHttpActivity.class,
-            MyAIDLActivity.class,
-            TomcatActivity.class,
-            ImageLoaderActivity.class
-    };
-
-    private ArrayList<DataMode> mData = new ArrayList<DataMode>();
-    String[] ss;
+public class NavigationActivity extends Activity {
+    private List<DataMode> mData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        ss = getResources().getStringArray(R.array.activity_name);
         initData();
-        ListAdapter<DataMode> adapter = new ListAdapter<DataMode>(this, mData);
-        getListView().setAdapter(adapter);
+        initRecyclerView();
     }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = (Intent) v.getTag();
-        startActivity(intent);
-    }
-
-    private String getStringKey(int id) {
-        return getResources().getString(id);
-    }
-
     private void initData() {
+        Class[] cls = MyActivities.ACTIVITIES;
         for (int index = 0; index < cls.length; index++) {
-            mData.add(new DataMode(ss[index], new Intent(NavigationActivity.this, cls[index])));
+            mData.add(new DataMode(cls[index].getSimpleName(),
+                    new Intent(NavigationActivity.this, cls[index])));
         }
+    }
+
+    private void initRecyclerView() {
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.id_recyclerview);
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(this));
+
+        MyRecyclerAdapter mAdapter = new MyRecyclerAdapter(NavigationActivity.this, mData);
+        mAdapter.setOnItemClickListener(new MyRecyclerAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, Object data) {
+                startActivity((Intent) data);
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

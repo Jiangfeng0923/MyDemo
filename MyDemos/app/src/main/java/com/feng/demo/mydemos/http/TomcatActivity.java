@@ -11,20 +11,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.feng.demo.mydemos.R;
-import com.feng.demo.utils.MyURLs;
+import com.feng.demo.data.MyURLs;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import static com.feng.demo.utils.MyLogUtils.JLog;
 

@@ -13,6 +13,8 @@ public class MyRunnable implements Runnable{
     private boolean cancleException = false;
 
     private Handler mHandler = null;
+    public MyRunnable(){
+    }
 
     public MyRunnable(Handler handler)
     {

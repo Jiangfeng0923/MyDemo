@@ -5,9 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.feng.demo.mydemos.layout.SymmetricalLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -28,10 +34,10 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-
     }
 
     public void onClick(View v) {
+       // testSymmetricalLayout(v);
     }
 
     private void round() {
