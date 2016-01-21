@@ -1,5 +1,4 @@
 .tomcatplugin
-/WEB-INF/classes
 /bin
 /image
 /temp
