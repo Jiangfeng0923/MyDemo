@@ -1,5 +1,4 @@
 .tomcatplugin
-.cvsignore
 /WEB-INF/classes
 /bin
 /image
