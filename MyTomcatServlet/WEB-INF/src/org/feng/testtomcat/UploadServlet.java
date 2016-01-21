@@ -44,6 +44,7 @@ public class UploadServlet extends HttpServlet {
 		// 开始读取上传信息
 		int index = 0;
 		List fileItems = null;
+		System.out.println("doPost..." + request);
 
 		try {
 			fileItems = fu.parseRequest(request);

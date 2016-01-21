@@ -6,8 +6,9 @@
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-io-2.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/org.apache.commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="src" path="WEB-INF/src"/>
 	<classpathentry kind="src" output="work" path="work"/>
-	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/org.apache.commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>

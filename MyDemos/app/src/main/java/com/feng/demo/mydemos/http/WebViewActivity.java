@@ -23,11 +23,14 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.ResponseBody;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
@@ -112,10 +115,12 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
-
+            String url = params[0];
+            final String fileName = url.substring(url.lastIndexOf("/") + 1);
+            JLog("fileName="+fileName);
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-                    .url(params[0])
+                    .url(url)
                     .build();
                 JLog("doInBackground:"+request);
             client.newCall(request).enqueue(new Callback() {
@@ -136,9 +141,51 @@ public class WebViewActivity extends AppCompatActivity {
                     }
 
                     JLog(response.body().string());
+
+                    ResponseBody entity = response.body();
+                    InputStream input = entity.byteStream();
+                    writeToSDCard(fileName,input);
+
+                    input.close();
+//                  entity.consumeContent();
                 }
             });
-            return null;
+
+            return fileName;
+        }
+
+        public void writeToSDCard(String fileName,InputStream input){
+
+            if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+                File directory=Environment.getExternalStorageDirectory();
+                JLog("directory="+directory+ " fileName="+fileName);
+                File file=new File(directory,fileName);
+//          if(file.exists()){
+//              Log.i("tag", "The file has already exists.");
+//              return;
+//          }
+                try {
+                    JLog("write file start ----");
+                    FileOutputStream fos = new FileOutputStream(file);
+                    byte[] b = new byte[2048];
+                    int j = 0;
+                    while ((j = input.read(b)) != -1) {
+                        fos.write(b, 0, j);
+                        JLog("writing ````");
+                    }
+                    fos.flush();
+                    fos.close();
+                    JLog("Download finish!~~~~~~~~~");
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }else{
+                Log.i("tag", "NO SDCard.");
+            }
         }
 
         private String doByHttpClient(String... params) {
