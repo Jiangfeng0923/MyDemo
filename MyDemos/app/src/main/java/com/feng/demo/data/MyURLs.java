@@ -25,6 +25,8 @@ public class MyURLs {
     public static final String DEFAULT_IP = "192.168.2.100";
     public static final String PORT = ":8080";
     public static final String LOCAL_IMAGES_ADDRESS = "/resource/image/";
+    public static final String LOCAL_FILE_ADDRESS = "/resource/file/";
+    public static final String LOCAL_RESOURCE_ADDRESS = "/resource";
     public static final String LOCAL_UPLOAD_ADDRESS = "/MyTomcatServlet/upload";
     public static final String LOCAL_LOGIN_ADDRESS = "/MyTomcatServlet/login";
     public static final String[] IMAGE_NAMES = new String[]{
