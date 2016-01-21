@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="activity_name">
+        <item name="cursorloader_activity_name">CursorLoader Activity</item>
+        <item name="recyclerview_list_activity_name">RecyclerViewList</item>
+        <item name="test_activity_name">TestActivity</item>
+        <item name="toast_demo_activity_name">ToastDemo</item>
+        <item name="volley_activity_name">Volley Activity</item>
+        <item name="webview_activity_name">WebView Activity</item>
+        <item name="threadpool_activity_name">ThreadPool Activity</item>
+        <item name="threadpool_2_activity_name">ThreadPool2 Activity</item>
+        <item name="bitmap_parcel_activity_name">Bitmap Parcel Activity</item>
+        <item name="okhttp_activity_name">OkHttp Activity</item>
+        <item name="my_aidl_activity_name">MyAIDL Activity</item>
+        <item name="my_tomcat_activity_name">Tomcat Activity</item>
+        <item name="my_imageloader_activity_name">ImageLoaderActivity</item>
+        <item name="my_eventbus_activity_name">EventBusActivity</item>
+        <item name="my_uploadfile_activity_name">UploadFileActivity</item>
+
+
+    </string-array>
+
+</resources>
