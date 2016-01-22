@@ -62,7 +62,17 @@
             android:name=".aidl.MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".aidl.MyAIDLActivity" />
+        <activity android:name=".aidl.MyAIDLActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.feng.demo.action.DOWNLOAD" />
+                <category android:name="android.intent.category.DEFAULT" />
+               <!-- <data android:scheme="http" android:pathPattern=".*//.pdf"></data>-->
+                <data
+                    android:pathPattern="/resource"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".aidl.MyAIDLService"

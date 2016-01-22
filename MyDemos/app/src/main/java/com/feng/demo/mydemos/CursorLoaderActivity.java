@@ -8,7 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.view.ViewGroup.LayoutParams;
 
-import com.feng.demo.utils.MyLoaderCallBacks;
+import com.feng.demo.utils.runnable.MyLoaderCallBacks;
 
 public class CursorLoaderActivity extends ListActivity {
 

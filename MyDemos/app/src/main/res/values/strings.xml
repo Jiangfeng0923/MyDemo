@@ -9,12 +9,13 @@
     <string name="get">Get</string>
     <string name="getIP">Get IP</string>
     <string name="getFile">Get File</string>
-    <string name="load">Load</string>
+    <string name="download">DownLoad</string>
     <string name="upload">UpLoad</string>
     <string name="uploadByHttp">UpLoad Http</string>
     <string name="uploadByOkHttp">UpLoad OkHttp</string>
     <string name="put">Put</string>
     <string name="clear">Clear</string>
+    <string name="compute">Compute</string>
     <string name="getJson">Get Json</string>
     <string-array name="btns">
         <item>"btn1"</item>

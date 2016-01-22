@@ -17,8 +17,10 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.feng.demo.data.MyIntentAction;
 import com.feng.demo.mydemos.R;
 import com.feng.demo.data.MyURLs;
+import com.feng.demo.utils.DialogHelper;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -105,168 +107,28 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
             JLog("down load url=" + url);
-            Uri uri = Uri.parse(url);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
+            final Uri uri = Uri.parse(url);
+            DialogHelper helper = new DialogHelper(WebViewActivity.this);
+            helper.setOnDialogCilckListener(new DialogHelper.DialogListener() {
+                @Override
+                public void onDialogClick(int item) {
+                    if (item == 0) {
+                        Intent intent = new Intent(MyIntentAction.ACTION_DOWNLOAD, uri);
+                        startActivity(intent);
+                    } else if (item == 1) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                }
+            });
+            String[] items={"DownloaderTask","Browser"};
+            helper.createAlertDialog(items);
+
             //Todo: Download by DownloaderTask!!!
             /*DownloaderTask task = new DownloaderTask();
             task.execute(url);*/
         }
     }
 
-    private class DownloaderTask extends AsyncTask<String, Void, String> {
 
-        public DownloaderTask() {
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            // TODO Auto-generated method stub
-
-            String url = params[0];
-            final String fileName = url.substring(url.lastIndexOf("/") + 1);
-            JLog("fileName="+fileName);
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-                JLog("doInBackground:"+request);
-            client.newCall(request).enqueue(new Callback() {
-
-                @Override
-                public void onFailure(Request request, IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(Response response) throws IOException {
-                    if (!response.isSuccessful())
-                        throw new IOException("Unexpected code " + response);
-
-                    Headers responseHeaders = response.headers();
-                    for (int i = 0; i < responseHeaders.size(); i++) {
-                        JLog(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                    }
-
-                    JLog(response.body().string());
-
-                    ResponseBody entity = response.body();
-                    InputStream input = entity.byteStream();
-                    writeToSDCard(fileName,input);
-
-                    input.close();
-//                  entity.consumeContent();
-                }
-            });
-
-            return fileName;
-        }
-
-        public void writeToSDCard(String fileName,InputStream input){
-
-            if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-                File directory=Environment.getExternalStorageDirectory();
-                JLog("directory="+directory+ " fileName="+fileName);
-                File file=new File(directory,fileName);
-                JLog("input="+input);
-//          if(file.exists()){
-//              Log.i("tag", "The file has already exists.");
-//              return;
-//          }
-                try {
-                    FileOutputStream fos = new FileOutputStream(file);
-                    byte[] b = new byte[1024];
-                    int j = 0;
-                    JLog("write file start ----");
-                    input.read(b);
-                    JLog("write file ing ----");
-                    while ((j = input.read(b)) != -1) {
-                        JLog("writing ````");
-                        fos.write(b, 0, j);
-                    }
-                    fos.flush();
-                    fos.close();
-                    JLog("Download finish!~~~~~~~~~");
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }else{
-                Log.i("tag", "NO SDCard.");
-            }
-        }
-
-        private String doByHttpClient(String... params) {
-            String url = params[0];
-            String fileName = url.substring(url.lastIndexOf("/") + 1);
-            fileName = URLDecoder.decode(fileName);
-            Log.i("tag", "fileName=" + fileName);
-
-            File directory = Environment.getExternalStorageDirectory();
-            File file = new File(directory, fileName);
-            if (file.exists()) {
-                Log.i("tag", "The file has already exists.");
-                return fileName;
-            }
-            try {
-                /*HttpClient client = new DefaultHttpClient();
-//                client.getParams().setIntParameter("http.socket.timeout",3000);//设置超时
-                HttpGet get = new HttpGet(url);
-                HttpResponse response = client.execute(get);
-                if(HttpStatus.SC_OK==response.getStatusLine().getStatusCode()){
-                    HttpEntity entity = response.getEntity();
-                    InputStream input = entity.getContent();
-
-                    writeToSDCard(fileName,input);
-
-                    input.close();
-                    return fileName;
-                }else{
-                    return null;
-                }*/
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onCancelled() {
-            // TODO Auto-generated method stub
-            super.onCancelled();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-            //closeProgressDialog();
-            if (result == null) {
-                return;
-            }
-
-            File directory = Environment.getExternalStorageDirectory();
-            File file = new File(directory, result);
-            Log.i("tag", "Path=" + file.getAbsolutePath());
-
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
-            //showProgressDialog();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            // TODO Auto-generated method stub
-            super.onProgressUpdate(values);
-        }
-    }
 }
