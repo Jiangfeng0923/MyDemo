@@ -38,6 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import static com.feng.demo.utils.MyLogUtils.JLog;
@@ -105,8 +106,18 @@ public class WebViewActivity extends AppCompatActivity {
     private class MyWebViewDownLoadListener implements DownloadListener {
 
         @Override
-        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-            JLog("down load url=" + url);
+        public void onDownloadStart(String url, String userAgent,
+                                    String contentDisposition, String mimetype, long contentLength) {
+            /*  Chinese garbled on file name */
+            /*String uriStr = url;
+            byte[] bytes = url.getBytes();
+            try {
+                uriStr = new String(bytes,"gbk");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            JLog("down load uriStr=" + url);*/
+
             final Uri uri = Uri.parse(url);
             DialogHelper helper = new DialogHelper(WebViewActivity.this);
             helper.setOnDialogCilckListener(new DialogHelper.DialogListener() {
@@ -121,7 +132,7 @@ public class WebViewActivity extends AppCompatActivity {
                     }
                 }
             });
-            String[] items={"DownloaderTask","Browser"};
+            String[] items = {"DownloaderTask", "Browser"};
             helper.createAlertDialog(items);
 
             //Todo: Download by DownloaderTask!!!

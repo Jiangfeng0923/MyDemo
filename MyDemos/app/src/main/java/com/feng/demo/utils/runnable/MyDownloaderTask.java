@@ -34,6 +34,7 @@ import static com.feng.demo.utils.MyLogUtils.JLog;
 public class MyDownloaderTask extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
+    private int lastProgress=-1;
 
     public MyDownloaderTask(Context context,Handler handler) {
         mContext = context;
@@ -43,6 +44,11 @@ public class MyDownloaderTask extends AsyncTask<String, Integer, String> {
     protected void onProgressUpdate(Integer... values) {
         // TODO Auto-generated method stub
         int progress = values[0];
+        if(lastProgress==progress){
+            return;
+        }else{
+            lastProgress = progress;
+        }
         Message msg = Message.obtain();
         msg.what= MyAIDLService.RESULT_PROGRESS;
         msg.obj=progress;
