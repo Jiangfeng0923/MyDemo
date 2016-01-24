@@ -1,11 +1,15 @@
 package com.feng.demo.mydemos.updownload;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Messenger;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +18,8 @@ import android.widget.EditText;
 import com.feng.demo.data.FileInfo;
 import com.feng.demo.data.MyURLs;
 import com.feng.demo.mydemos.R;
+import com.feng.demo.mydemos.aidl.IMyAidlInterface;
+import com.feng.demo.mydemos.aidl.MyAIDLService;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
@@ -43,6 +49,8 @@ public class UploadFileActivity extends AppCompatActivity {
     private static final int UPLOADHTTP = 0;
     private static final int UPLOADOKHTTP = 1;
     OkHttpClient client = new OkHttpClient();
+
+    private IMyAidlInterface myServiceAIDL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +99,7 @@ public class UploadFileActivity extends AppCompatActivity {
 
 
     public void upload(final int mode) {
+        bindService();
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
@@ -103,6 +112,23 @@ public class UploadFileActivity extends AppCompatActivity {
             }
         });
     }
+    private void bindService() {
+        //连接远程Service和Activity
+        Intent binderIntent = new Intent(this, MyAIDLService.class);
+        bindService(binderIntent, sc, BIND_AUTO_CREATE);
+    }
+    private ServiceConnection sc = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            JLog("onServiceConnected");
+            myServiceAIDL = IMyAidlInterface.Stub.asInterface(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            JLog("onServiceDisconnected");
+        }
+    };
 
     protected FileInfo getFileInfoByURI(Uri uri) {
         // can post image
@@ -236,10 +262,10 @@ public class UploadFileActivity extends AppCompatActivity {
         try {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            System.out.println(response.body().string());
+            String result=response.body().string();
+            myServiceAIDL.notifyResult(result);
         } catch (Exception e) {
-            JLog("e=" + e);
+            JLog("uploadFileByOkHttp e=" + e);
             e.printStackTrace(System.out);
         }
 

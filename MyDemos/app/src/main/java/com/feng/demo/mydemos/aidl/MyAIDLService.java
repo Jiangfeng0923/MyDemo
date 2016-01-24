@@ -35,7 +35,6 @@ public class MyAIDLService extends Service {
         // TODO: Return the communication channel to the service.
         JLog("intent=" + intent);
         messenger = intent.getParcelableExtra("messenger");
-        JLog("messenger=" + messenger);
         mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (mHandler == null) {
@@ -56,6 +55,15 @@ public class MyAIDLService extends Service {
             executeDownload(url);
             return 0;
         }
+        @Override
+        public int notifyResult(String str){
+            Message msg = Message.obtain();
+            msg.what= MyAIDLService.RESULT_PROGRESS;
+            msg.arg1 = str.hashCode();
+            msg.obj=str;
+            mHandler.sendMessage(msg);
+            return 0;
+        }
     };
 
     private static class MyHandler extends Handler {
@@ -74,20 +82,21 @@ public class MyAIDLService extends Service {
         @Override
         public void handleMessage(Message msg) {
             String progress = String.valueOf(msg.obj);
+            int id = msg.arg1;
             Notification notifi =
-                    notificationBuilder.setContentTitle("Download Progress")
+                    notificationBuilder.setContentTitle("Progress")
                             .setContentText(progress)
                             .setSmallIcon(R.drawable.ic_sim1)
                             .setLargeIcon(largeIcon)
                             .build();
-            mNotificationManager.notify(0, notifi);
+            mNotificationManager.notify(id, notifi);
         }
     }
 
     private void executeDownload(String url) {
         JLog("MyAIDLService executeDownload");
         MyDownloaderTask task = new MyDownloaderTask(MyAIDLService.this, mHandler);
-        task.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, url);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
     }
 
     private <E> void sendBack(E e, int what) {

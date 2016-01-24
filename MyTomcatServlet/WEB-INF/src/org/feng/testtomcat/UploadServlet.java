@@ -2,6 +2,7 @@ package org.feng.testtomcat;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.util.Date;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
@@ -31,7 +33,9 @@ public class UploadServlet extends HttpServlet {
 			return;
 		}
 		request.setCharacterEncoding("UTF-8");// 解析中文文件名
-		//String temp = request.getSession().getServletContext().getRealPath("/") + "temp"; // 临时目录
+		// String temp =
+		// request.getSession().getServletContext().getRealPath("/") + "temp";
+		// // 临时目录
 		String temp = "D:/Android/resource/temp";
 		// String loadpath =
 		// request.getSession().getServletContext().getRealPath("/") + "Image";
@@ -67,9 +71,8 @@ public class UploadServlet extends HttpServlet {
 				if (point > 0) {
 					String subName = name.substring(0, point);
 					System.out.println("subName =" + subName);
-					name = subName + (new Date()).getTime() + "_" + index 
-							+ name.substring(point, name.length());
-				} 				
+					name = subName + (new Date()).getTime() + "_" + index + name.substring(point, name.length());
+				}
 				index++;
 				System.out.println("72 loadpath=" + loadpath);
 				System.out.println("73 name=" + name);
@@ -90,7 +93,15 @@ public class UploadServlet extends HttpServlet {
 			}
 		}
 		String text1 = "11";
-		response.sendRedirect("result.jsp?text1=" + text1);
+		// response.sendRedirect("result.jsp?text1=" + text1);
+		response.setHeader("Content-type", "text/html;charset=UTF-8");// 向浏览器发送一个响应头，设置浏览器的解码方式为UTF-8
+
+		String data = "上传成功";
+
+		OutputStream stream = response.getOutputStream();
+
+		stream.write(data.getBytes("UTF-8"));
+		System.out.println("ok");
 
 	}
 }

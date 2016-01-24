@@ -51,6 +51,7 @@ public class MyDownloaderTask extends AsyncTask<String, Integer, String> {
         }
         Message msg = Message.obtain();
         msg.what= MyAIDLService.RESULT_PROGRESS;
+        msg.arg1 = MyDownloaderTask.this.hashCode();
         msg.obj=progress;
         mHandler.sendMessage(msg);
     }
