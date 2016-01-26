@@ -5,6 +5,7 @@ import com.feng.demo.mydemos.EventBusActivity;
 import com.feng.demo.mydemos.TestActivity;
 import com.feng.demo.mydemos.ToastDemoActivity;
 import com.feng.demo.mydemos.aidl.MyAIDLActivity;
+import com.feng.demo.mydemos.auction.LoginActivity;
 import com.feng.demo.mydemos.bitmap.BitmapToParcelActivity;
 import com.feng.demo.mydemos.http.OkHttpActivity;
 import com.feng.demo.mydemos.http.TomcatActivity;
@@ -38,7 +39,8 @@ public class MyActivities {
             ImageLoaderActivity.class,
             EventBusActivity.class,
             UploadFileActivity.class,
-            SymmetricalLayoutActivity.class
+            SymmetricalLayoutActivity.class,
+            LoginActivity.class
     };
 
     private MyActivities() {
